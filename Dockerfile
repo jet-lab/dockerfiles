@@ -1,12 +1,16 @@
+ARG USER=jet
+
 FROM ubuntu:latest
 
-ARG USER=jet
+ARG USER
 ARG SOLANA_VERSION=stable
 ARG ANCHOR_VERSION=latest
 
 # core dependencies
 RUN apt-get update && apt-get dist-upgrade -y
 RUN apt-get install -y git curl pkg-config build-essential libudev-dev openssl libssl-dev
+RUN curl -O http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
+RUN dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb && rm libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
 
 # user environment
 RUN [ $USER = root ] || useradd -md /$USER $USER
@@ -35,11 +39,11 @@ RUN cd /$USER && anchor init x && cd x && anchor build && cd .. && rm -rf x
 
 # test utils
 RUN cargo install cargo-llvm-cov
+RUN rustup component add llvm-tools-preview --toolchain stable-x86_64-unknown-linux-gnu
 
 # ----------
 
 FROM scratch
 COPY --from=0 / /
-USER $USER
-WORKDIR /$USER
+ARG USER
 ENV PATH="$PATH:/$USER/.cargo/bin:/$USER/.local/share/solana/install/active_release/bin"
