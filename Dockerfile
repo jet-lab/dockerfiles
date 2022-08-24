@@ -32,7 +32,7 @@ ENV PATH="$PATH:/$USER/.local/share/solana/install/active_release/bin"
 RUN solana-keygen new --no-bip39-passphrase
 
 # anchor
-RUN cargo install --git https://github.com/jet-lab/anchor cli --locked --force
+RUN cargo install --git https://github.com/jet-lab/anchor anchor-cli --locked --force
 RUN cd /$USER && anchor init x && cd x && anchor build && cd .. && rm -rf x
 
 # test utils
