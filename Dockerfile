@@ -11,6 +11,9 @@ RUN apt-get install -y git curl pkg-config build-essential libudev-dev openssl l
 RUN curl -O http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
 RUN dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb && rm libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
 
+# Cypress dependencies
+RUN apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
 # user environment
 RUN [ $USER = root ] || useradd -md /$USER $USER
 ENV PATH="$PATH:/$USER/.cargo/bin:/$USER/.local/share/solana/install/active_release/bin"
@@ -19,6 +22,7 @@ ENV PATH="$PATH:/$USER/.cargo/bin:/$USER/.local/share/solana/install/active_rele
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN corepack enable
+RUN yarn global add cypress
 
 USER $USER
 
