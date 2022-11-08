@@ -3,7 +3,9 @@ ARG USER=root
 FROM ubuntu:latest
 
 ARG USER
-ARG SOLANA_VERSION=v1.10.35
+ARG RUST_VERSION=stable
+ARG SOLANA_VERSION=stable
+ARG ANCHOR_VERSION=latest
 
 # core dependencies
 RUN apt-get update && apt-get dist-upgrade -y
@@ -22,13 +24,13 @@ ENV PATH="$PATH:/$USER/.cargo/bin:/$USER/.local/share/solana/install/active_rele
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN corepack enable
-RUN yarn global add cypress
 
 USER $USER
 
 # rust
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
 ENV PATH="$PATH:/$USER/.cargo/bin"
+RUN rustup default $RUST_VERSION
 
 # solana
 RUN sh -c "$(curl -sSfL https://release.solana.com/$SOLANA_VERSION/install)"
@@ -36,12 +38,15 @@ ENV PATH="$PATH:/$USER/.local/share/solana/install/active_release/bin"
 RUN solana-keygen new --no-bip39-passphrase
 
 # anchor
-RUN cargo install --git https://github.com/jet-lab/anchor anchor-cli --locked --force
+RUN [ $ANCHOR_VERSION = latest ] \
+    && cargo install --git https://github.com/jet-lab/anchor anchor-cli --locked --force \
+    || cargo install --git https://github.com/jet-lab/anchor anchor-cli --locked --force --tag $ANCHOR_VERSION
 RUN cd /$USER && anchor init x && cd x && anchor build && cd .. && rm -rf x
 
 # test utils
 RUN cargo install cargo-llvm-cov
 RUN rustup component add llvm-tools-preview --toolchain stable-x86_64-unknown-linux-gnu
+RUN cargo install cargo-nextest
 
 # ----------
 
