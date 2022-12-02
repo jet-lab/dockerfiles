@@ -42,7 +42,7 @@ RUN [ $ANCHOR_VERSION = latest ] \
 RUN cd /home/tools && anchor init x && cd x && anchor build && cd .. && rm -rf x
 
 # test utils
-RUN cargo install cargo-llvm-cov cargo-nextest
+RUN cargo install cargo-llvm-cov cargo-nextest wasm-pack
 RUN rustup component add llvm-tools-preview --toolchain stable-x86_64-unknown-linux-gnu
 
 SHELL ["/bin/bash", "-c"]
