@@ -37,8 +37,8 @@ RUN solana-keygen new --no-bip39-passphrase
 
 # anchor
 RUN [ $ANCHOR_VERSION = latest ] \
-    && cargo install --git https://github.com/jet-lab/anchor anchor-cli --locked --force \
-    || cargo install --git https://github.com/jet-lab/anchor anchor-cli --locked --force --tag $ANCHOR_VERSION
+    && cargo install --git https://github.com/coral-xyz/anchor anchor-cli --locked --force \
+    || cargo install --git https://github.com/coral-xyz/anchor anchor-cli --locked --force --tag $ANCHOR_VERSION
 RUN cd /home/tools && anchor init x && cd x && anchor build && cd .. && rm -rf x
 
 # test utils
