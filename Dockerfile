@@ -7,8 +7,8 @@ ARG ANCHOR_VERSION=latest
 # core dependencies
 RUN apt-get update && apt-get dist-upgrade -y
 RUN apt-get install -y vim git curl pkg-config build-essential libudev-dev openssl libssl-dev
-RUN curl -O http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
-RUN dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb && rm libssl1.1_1.1.1-1ubuntu2.1~18.04.20_amd64.deb
+RUN curl -O http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1-1ubuntu2.1~18.04.21_amd64.deb
+RUN dpkg -i libssl1.1_1.1.1-1ubuntu2.1~18.04.21_amd64.deb && rm libssl1.1_1.1.1-1ubuntu2.1~18.04.21_amd64.deb
 
 # Cypress dependencies
 RUN apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
