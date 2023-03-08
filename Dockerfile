@@ -4,6 +4,10 @@ ARG RUST_VERSION=stable
 ARG SOLANA_VERSION=stable
 ARG ANCHOR_VERSION=latest
 
+# helper scripts
+COPY github-entrypoint.sh /github-entrypoint.sh
+RUN chmod 777 /github-entrypoint.sh
+
 # core dependencies
 RUN apt-get update && apt-get dist-upgrade -y
 RUN apt-get install -y vim git curl pkg-config build-essential libudev-dev openssl libssl-dev
