@@ -1,0 +1,7 @@
+# Ignore everything, converting this from a blacklist to a whitelist
+*
+
+# Whitelist these files
+!**/Cargo.toml
+!Cargo.lock
+!liquidator/src/**/*.rs
