@@ -1,4 +1,6 @@
-FROM rust:latest AS builder
+# The version of debian used here should not exceed the version of debian used to build distroless images
+# This is to ensure that the glibc versions of distroless are >= of rust
+FROM rust:bullseye AS builder
 
 ARG PACKAGE
 ARG CARGO_ARGS
